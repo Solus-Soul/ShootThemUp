@@ -9,4 +9,4 @@ SortIncludes: false
 AllowShortBlocksOnASingleLine: false
 AlignAfterOpenBracket: DontAlign
 AllowShortFunctionsOnASingleLine: Inline
-PointerAligment: Left
+PointerAlignment: Left
