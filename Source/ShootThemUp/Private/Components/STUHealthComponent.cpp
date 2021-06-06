@@ -4,6 +4,9 @@
 #include "Components/STUHealthComponent.h"
 #include "GameFramework/Actor.h"
 
+DEFINE_LOG_CATEGORY_STATIC(MyLogHealthComponent, All, All);
+
+
 USTUHealthComponent::USTUHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
@@ -25,4 +28,5 @@ void USTUHealthComponent::OnTakeAnyDamage(
 {
 	//UE_LOG(MyLogCharacter, Display, TEXT("Damage %f"), Damage);
 	Health -= Damage;
+	UE_LOG(MyLogHealthComponent, Warning, TEXT("Damage: %f"), Damage);
 }
