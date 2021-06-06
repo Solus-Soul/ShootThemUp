@@ -3,6 +3,8 @@
 
 #include "Components/STUHealthComponent.h"
 #include "GameFramework/Actor.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
 
 DEFINE_LOG_CATEGORY_STATIC(MyLogHealthComponent, All, All);
 
@@ -17,8 +19,7 @@ void USTUHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Health = MaxHealth;
-	OnHealthChangend.Broadcast(Health);
+	SetHealth(MaxHealth);
 
 	AActor* ComponentOwner = GetOwner();
 	ComponentOwner->OnTakeAnyDamage.AddDynamic(this, &USTUHealthComponent::OnTakeAnyDamage);
@@ -29,11 +30,31 @@ void USTUHealthComponent::OnTakeAnyDamage(
 {
 	if (Damage <= 0.0f || IsDead()) return;
 	
-	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
-	OnHealthChangend.Broadcast(Health);
+	SetHealth(Health - Damage);
+	GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 
 	if (IsDead())
 	{
 		OnDeath.Broadcast();
 	}
+	else if (AutoHeal)
+	{
+		GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this, &USTUHealthComponent::HealUpdate, HealUpdateTime, true, HealDelay);
+	}
+}
+
+void USTUHealthComponent::HealUpdate() 
+{
+	SetHealth(Health + HealModifier);
+
+	if (FMath::IsNearlyEqual(Health, MaxHealth))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
+	}
+}
+
+void USTUHealthComponent::SetHealth(float NewHealth) 
+{
+	Health = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
+	OnHealthChangend.Broadcast(Health);
 }
