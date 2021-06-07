@@ -47,3 +47,12 @@ void ASTURifleWeapon::GetTraceDate(FVector& TraceStart, FVector& TraceEnd) const
 	const FVector ShootDirection = FMath::VRandCone(ViewRotation.Vector(), HalfRad);
 	TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
 }
+
+void ASTURifleWeapon::MakeDamage(const FHitResult& HitResult)
+{
+	const auto DamageActor = HitResult.GetActor();
+	if (!DamageActor)
+		return;
+
+	DamageActor->TakeDamage(DamageAmount, FDamageEvent{}, GetPlayerController(), this);
+}
