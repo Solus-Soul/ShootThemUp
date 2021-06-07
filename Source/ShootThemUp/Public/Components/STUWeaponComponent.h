@@ -33,4 +33,5 @@ private:
 	ASTUBaseWeapon* CurrentWeapon = nullptr;
 
 	void SpawnWeapon();
+
 };
