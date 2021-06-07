@@ -7,18 +7,21 @@
 #include "STUCoreTypes.h"
 #include "STUHealthComponent.generated.h"
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	USTUHealthComponent();
 
 	float GetHealth() const { return Health; }
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Health")
 	bool IsDead() const { return FMath::IsNearlyZero(Health); };
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	float GetHealthPercent() const { return Health / MaxHealth; }
 
 	FOnDeathSignature OnDeath;
 	FOnHealthChangendSignature OnHealthChangend;
@@ -31,7 +34,7 @@ protected:
 	bool AutoHeal = true;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
-	float HealUpdateTime = 1.0f; 
+	float HealUpdateTime = 1.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
 	float HealDelay = 1.0f;
