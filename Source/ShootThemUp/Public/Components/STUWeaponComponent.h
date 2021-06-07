@@ -7,6 +7,7 @@
 #include "STUWeaponComponent.generated.h"
 
 class ASTUBaseWeapon;
+class UAnimMontage;
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTTHEMUP_API USTUWeaponComponent : public UActorComponent
@@ -34,6 +35,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FName WeaponArmorySocketName = "ArmorySocket";
 
+	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+	UAnimMontage* EquipAnimMontage;
+
 private:
 	UPROPERTY()
 	ASTUBaseWeapon* CurrentWeapon = nullptr;
@@ -46,4 +50,8 @@ private:
 	void SpawnWeapons();
 	void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* SceneComponent, const FName& SocketName);
 	void EquipWeapon(int32 WeaponIndex);
+
+	void PlayAnimMontage(UAnimMontage* Animation);
+	void InitAnimations();
+	void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
 };
