@@ -1,6 +1,5 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-
 #include "Weapon/STURifleWeapon.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
@@ -18,6 +17,12 @@ void ASTURifleWeapon::StopFire()
 
 void ASTURifleWeapon::MakeShot()
 {
+	if (IsAmmoEmpty())
+	{
+		StopFire();
+		return;	
+	}
+
 	FVector TraceStart, TraceEnd;
 	GetTraceDate(TraceStart, TraceEnd);
 
@@ -34,6 +39,8 @@ void ASTURifleWeapon::MakeShot()
 	{
 		DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), TraceEnd, FColor::Red, false, 3.0f, 0, 3.0f);
 	}
+
+	DecreaseAmmo();
 }
 
 void ASTURifleWeapon::GetTraceDate(FVector& TraceStart, FVector& TraceEnd) const
