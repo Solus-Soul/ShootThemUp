@@ -7,6 +7,8 @@
 #include "STUCoreTypes.h"
 #include "STUHealthComponent.generated.h"
 
+class UCameraShakeBase;
+
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
 {
@@ -14,6 +16,9 @@ class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
 
 public:
 	USTUHealthComponent();
+
+	FOnDeathSignature OnDeath;
+	FOnHealthChangendSignature OnHealthChangend;
 
 	float GetHealth() const { return Health; }
 
@@ -24,10 +29,7 @@ public:
 	float GetHealthPercent() const { return Health / MaxHealth; }
 
 	bool TryToAddHealth(float HealthAmount);
-	bool IsHealthFull() const; 
-
-	FOnDeathSignature OnDeath;
-	FOnHealthChangendSignature OnHealthChangend;
+	bool IsHealthFull() const;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0.0", ClampMax = "1000.0"))
@@ -45,6 +47,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
 	float HealModifier = 5.0f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	TSubclassOf<UCameraShakeBase> CameraShake;
+
 	virtual void BeginPlay() override;
 
 private:
@@ -57,4 +62,6 @@ private:
 
 	void HealUpdate();
 	void SetHealth(float NewHealth);
+
+	void PlayCameraShake();
 };
