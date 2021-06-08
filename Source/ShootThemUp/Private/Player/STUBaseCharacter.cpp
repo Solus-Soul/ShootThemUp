@@ -1,6 +1,5 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-
 #include "Player/STUBaseCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
@@ -18,7 +17,7 @@ DEFINE_LOG_CATEGORY_STATIC(MyLogCharacter, All, All);
 ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer& ObjInit)
 	: Super(ObjInit.SetDefaultSubobjectClass<USTUCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
@@ -43,10 +42,11 @@ void ASTUBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	check(GetMesh());
 	check(HealthComponent);
 	check(HealthTextComponent);
 	check(GetCharacterMovement());
-	
+
 	OnHealthChanged(HealthComponent->GetHealth());
 	HealthComponent->OnDeath.AddUObject(this, &ASTUBaseCharacter::OnDeath);
 	HealthComponent->OnHealthChangend.AddUObject(this, &ASTUBaseCharacter::OnHealthChanged);
@@ -58,8 +58,6 @@ void ASTUBaseCharacter::BeginPlay()
 void ASTUBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	
 }
 
 // Called to bind functionality to input
@@ -85,22 +83,24 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 void ASTUBaseCharacter::MoveForward(float Amount)
 {
 	IsMovingForward = Amount > 0.0f;
-	if (Amount == 0.0f) return;
+	if (Amount == 0.0f)
+		return;
 	AddMovementInput(GetActorForwardVector(), Amount);
 }
 
-void ASTUBaseCharacter::MoveRight(float Amount) 
-{ 
-	if (Amount == 0.0f) return;
+void ASTUBaseCharacter::MoveRight(float Amount)
+{
+	if (Amount == 0.0f)
+		return;
 	AddMovementInput(GetActorRightVector(), Amount);
 }
 
-void ASTUBaseCharacter::OnStartRunning() 
+void ASTUBaseCharacter::OnStartRunning()
 {
 	WantsToRun = true;
 }
 
-void ASTUBaseCharacter::OnStopRunning() 
+void ASTUBaseCharacter::OnStopRunning()
 {
 	WantsToRun = false;
 }
@@ -110,9 +110,10 @@ bool ASTUBaseCharacter::IsRunning() const
 	return WantsToRun && IsMovingForward && !GetVelocity().IsZero();
 }
 
-float ASTUBaseCharacter::GetMovementDirection() const 
+float ASTUBaseCharacter::GetMovementDirection() const
 {
-	if (GetVelocity().IsZero()) return 0.0f;
+	if (GetVelocity().IsZero())
+		return 0.0f;
 	const auto VelocityNormal = GetVelocity().GetSafeNormal();
 	const auto AngleBetween = FMath::Acos(FVector::DotProduct(GetActorForwardVector(), VelocityNormal));
 	const auto CrossProduct = FVector::CrossProduct(GetActorForwardVector(), VelocityNormal);
@@ -120,20 +121,23 @@ float ASTUBaseCharacter::GetMovementDirection() const
 	return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
 }
 
-void ASTUBaseCharacter::OnDeath() 
+void ASTUBaseCharacter::OnDeath()
 {
 	UE_LOG(MyLogCharacter, Display, TEXT("Player %s is death"), *GetName());
 
-	PlayAnimMontage(DeathAnimMontage);
+	// PlayAnimMontage(DeathAnimMontage);
 	GetCharacterMovement()->DisableMovement();
 	SetLifeSpan(LifeSpanOnDeath);
 	Controller->ChangeState(NAME_Spectating);
 
 	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	WeaponComponent->StopFire();
+
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetMesh()->SetSimulatePhysics(true);
 }
 
-void ASTUBaseCharacter::OnHealthChanged(float Health) 
+void ASTUBaseCharacter::OnHealthChanged(float Health)
 {
 	HealthTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
 }
@@ -142,11 +146,11 @@ void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit)
 {
 	const auto FallVelocityZ = -GetVelocity().Z;
 	UE_LOG(MyLogCharacter, Display, TEXT("On landed %f "), FallVelocityZ);
-	
-	if (FallVelocityZ < LandedDamageVelocity.X) return;
-	
+
+	if (FallVelocityZ < LandedDamageVelocity.X)
+		return;
+
 	const auto FinalDamage = FMath::GetMappedRangeValueClamped(LandedDamageVelocity, LandedDamage, FallVelocityZ);
 	UE_LOG(MyLogCharacter, Display, TEXT("Final Damage %f "), FinalDamage);
 	TakeDamage(FinalDamage, FDamageEvent{}, nullptr, nullptr);
 }
-
