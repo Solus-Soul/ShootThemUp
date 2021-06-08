@@ -6,6 +6,8 @@
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/Controller.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(MyLogBaseWeapon, All, All);
 
@@ -127,18 +129,17 @@ bool ASTUBaseWeapon::CanReload() const
 
 bool ASTUBaseWeapon::IsAmmoFull() const
 {
-	return CurrentAmmo.Clips == DefaultAmmo.Clips &&   //
-		   CurrentAmmo.Bullets == DefaultAmmo.Bullets; //
+	return CurrentAmmo.Clips == DefaultAmmo.Clips &&	//
+		   CurrentAmmo.Bullets == DefaultAmmo.Bullets;	//
 }
 
 bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
 {
-	if (CurrentAmmo.Infinite || IsAmmoFull() || ClipsAmount <= 0)
-		return false;
+	if (CurrentAmmo.Infinite || IsAmmoFull() || ClipsAmount <= 0) return false;
 
 	if (IsAmmoEmpty())
 	{
-		UE_LOG(MyLogBaseWeapon, Display, TEXT("Ammo was empty!"));
+		//UE_LOG(MyLogBaseWeapon, Display, TEXT("Ammo was empty!"));
 		CurrentAmmo.Clips = FMath::Clamp(ClipsAmount, 0, DefaultAmmo.Clips + 1);
 		OnClipEmpty.Broadcast(this);
 	}
@@ -148,21 +149,31 @@ bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
 		if (DefaultAmmo.Clips - NextClipsAmount >= 0)
 		{
 			CurrentAmmo.Clips = NextClipsAmount;
-			UE_LOG(MyLogBaseWeapon, Display, TEXT("Clips were added!"));
-
+			//UE_LOG(MyLogBaseWeapon, Display, TEXT("Clips were added!"));
 		}
 		else
 		{
 			CurrentAmmo.Clips = DefaultAmmo.Clips;
 			CurrentAmmo.Bullets = DefaultAmmo.Bullets;
-			UE_LOG(MyLogBaseWeapon, Display, TEXT("Ammo is full now!"));
+			//UE_LOG(MyLogBaseWeapon, Display, TEXT("Ammo is full now!"));
 		}
 	}
 	else
 	{
 		CurrentAmmo.Bullets = DefaultAmmo.Bullets;
-		UE_LOG(MyLogBaseWeapon, Display, TEXT("Bullets were added!"));
-
+		//UE_LOG(MyLogBaseWeapon, Display, TEXT("Bullets were added!"));
 	}
 	return true;
+}
+
+UNiagaraComponent* ASTUBaseWeapon::SpawnMuzzleFX()
+{
+	return UNiagaraFunctionLibrary::SpawnSystemAttached(MuzzleFX,  //
+		WeaponMesh,												   //
+		MuzzleSocketName,										   //
+		FVector::ZeroVector,									   //
+		FRotator::ZeroRotator,									   //
+		EAttachLocation::SnapToTarget,							   //
+		true													   //
+	);
 }
