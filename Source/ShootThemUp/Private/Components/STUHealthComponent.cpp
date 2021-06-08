@@ -1,6 +1,5 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-
 #include "Components/STUHealthComponent.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
@@ -8,11 +7,9 @@
 
 DEFINE_LOG_CATEGORY_STATIC(MyLogHealthComponent, All, All);
 
-
 USTUHealthComponent::USTUHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-
 }
 
 void USTUHealthComponent::BeginPlay()
@@ -29,8 +26,9 @@ void USTUHealthComponent::BeginPlay()
 void USTUHealthComponent::OnTakeAnyDamage(
 	AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
 {
-	if (Damage <= 0.0f || IsDead()) return;
-	
+	if (Damage <= 0.0f || IsDead())
+		return;
+
 	SetHealth(Health - Damage);
 	GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 
@@ -44,18 +42,32 @@ void USTUHealthComponent::OnTakeAnyDamage(
 	}
 }
 
-void USTUHealthComponent::HealUpdate() 
+void USTUHealthComponent::HealUpdate()
 {
 	SetHealth(Health + HealModifier);
 
-	if (FMath::IsNearlyEqual(Health, MaxHealth))
+	if (IsHealthFull())
 	{
 		GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 	}
 }
 
-void USTUHealthComponent::SetHealth(float NewHealth) 
+void USTUHealthComponent::SetHealth(float NewHealth)
 {
 	Health = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
 	OnHealthChangend.Broadcast(Health);
+}
+
+bool USTUHealthComponent::TryToAddHealth(float HealthAmount)
+{
+	if (IsDead() || IsHealthFull())
+		return false;
+
+	SetHealth(Health + HealthAmount);
+	return true;
+}
+
+bool USTUHealthComponent::IsHealthFull() const
+{
+	return FMath::IsNearlyEqual(Health, MaxHealth);
 }
