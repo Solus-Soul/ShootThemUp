@@ -6,12 +6,7 @@
 
 float USTUPlayerHUDWidget::GetHealthPercent() const
 {
-	const auto Player = GetOwningPlayerPawn();
-	if (!Player)
-		return 0.0f;
-
-	const auto Component = Player->GetComponentByClass(USTUHealthComponent::StaticClass());
-	const auto HealthComponent = Cast<USTUHealthComponent>(Component);
+	const auto HealthComponent = GetHealthComponent();
 	if (!HealthComponent)
 		return 0.0f;
 
@@ -20,12 +15,20 @@ float USTUPlayerHUDWidget::GetHealthPercent() const
 
 bool USTUPlayerHUDWidget::GetCurrentWeaponUIData(FWeaponUIData& UIData) const
 {
-	return GetWeaponComponent()->GetCurrentWeaponUIData(UIData);
+	const auto WeaponComponent = GetWeaponComponent();
+	if (!WeaponComponent)
+		return false;
+
+	return WeaponComponent->GetCurrentWeaponUIData(UIData);
 }
 
 bool USTUPlayerHUDWidget::GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const
 {
-	return GetWeaponComponent()->GetCurrentWeaponAmmoData(AmmoData);
+	const auto WeaponComponent = GetWeaponComponent();
+	if (!WeaponComponent)
+		return false;
+
+	return WeaponComponent->GetCurrentWeaponAmmoData(AmmoData);
 }
 
 USTUWeaponComponent* USTUPlayerHUDWidget::GetWeaponComponent() const
@@ -37,4 +40,27 @@ USTUWeaponComponent* USTUPlayerHUDWidget::GetWeaponComponent() const
 	const auto Component = Player->GetComponentByClass(USTUWeaponComponent::StaticClass());
 	const auto WeaponComponent = Cast<USTUWeaponComponent>(Component);
 	return WeaponComponent;
+}
+
+USTUHealthComponent* USTUPlayerHUDWidget::GetHealthComponent() const
+{
+	const auto Player = GetOwningPlayerPawn();
+	if (!Player)
+		return nullptr;
+
+	const auto Component = Player->GetComponentByClass(USTUHealthComponent::StaticClass());
+	const auto HealthComponent = Cast<USTUHealthComponent>(Component);
+	return HealthComponent;
+}
+
+bool USTUPlayerHUDWidget::IsPlayerAlive() const
+{
+	const auto HealthComponent = GetHealthComponent();
+	return HealthComponent && !HealthComponent->IsDead();
+}
+
+bool USTUPlayerHUDWidget::IsPlayerSpectating() const
+{
+	const auto Controller = GetOwningPlayer();
+	return Controller && Controller->GetStateName() == NAME_Spectating;
 }
