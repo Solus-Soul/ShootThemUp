@@ -1,23 +1,18 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-
 #include "Weapon/STULauncherWeapon.h"
 #include "Weapon/STUProjectile.h"
 
-void ASTULauncherWeapon::StartFire() 
+void ASTULauncherWeapon::StartFire()
 {
 	MakeShot();
 }
 
-void ASTULauncherWeapon::StopFire() 
-{
-
-}
+void ASTULauncherWeapon::StopFire() {}
 
 void ASTULauncherWeapon::MakeShot()
 {
-	if (IsAmmoEmpty())
-		return;
+	if (IsAmmoEmpty()) return;
 
 	FVector TraceStart, TraceEnd;
 	GetTraceDate(TraceStart, TraceEnd);
@@ -30,7 +25,7 @@ void ASTULauncherWeapon::MakeShot()
 
 	const FTransform SpawnTransform{FRotator::ZeroRotator, GetMuzzleWorldLocation()};
 	ASTUProjectile* Projectile = GetWorld()->SpawnActorDeferred<ASTUProjectile>(ProjectileClass, SpawnTransform);
-	
+
 	Projectile->SetShotDirection(Direction);
 	Projectile->SetOwner(GetOwner());
 	Projectile->FinishSpawning(SpawnTransform);

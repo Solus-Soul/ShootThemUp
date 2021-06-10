@@ -12,7 +12,7 @@ UCLASS()
 class SHOOTTHEMUP_API ASTULauncherWeapon : public ASTUBaseWeapon
 {
 	GENERATED_BODY()
-	
+
 public:
 	virtual void StartFire() override;
 	virtual void StopFire() override;

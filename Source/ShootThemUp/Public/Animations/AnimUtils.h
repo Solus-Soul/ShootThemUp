@@ -5,7 +5,7 @@ class UAnimSequenceBase;
 class AnimUtils
 {
 public:
-	template <typename T> 
+	template <typename T>
 	static T* FindNotifyByClass(UAnimSequenceBase* Animation)
 	{
 		const auto NotifyEvents = Animation->Notifies;

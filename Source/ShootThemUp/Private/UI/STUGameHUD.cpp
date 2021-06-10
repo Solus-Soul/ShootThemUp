@@ -1,15 +1,12 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-
 #include "UI/STUGameHUD.h"
 #include "Engine/Canvas.h"
 #include "Blueprint/UserWidget.h"
 
-void ASTUGameHUD::DrawHUD() 
+void ASTUGameHUD::DrawHUD()
 {
 	Super::DrawHUD();
-
-	//DrawCrossHair();
 }
 
 void ASTUGameHUD::BeginPlay()

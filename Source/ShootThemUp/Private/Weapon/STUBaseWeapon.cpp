@@ -139,7 +139,6 @@ bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
 
 	if (IsAmmoEmpty())
 	{
-		//UE_LOG(MyLogBaseWeapon, Display, TEXT("Ammo was empty!"));
 		CurrentAmmo.Clips = FMath::Clamp(ClipsAmount, 0, DefaultAmmo.Clips + 1);
 		OnClipEmpty.Broadcast(this);
 	}
@@ -149,19 +148,16 @@ bool ASTUBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
 		if (DefaultAmmo.Clips - NextClipsAmount >= 0)
 		{
 			CurrentAmmo.Clips = NextClipsAmount;
-			//UE_LOG(MyLogBaseWeapon, Display, TEXT("Clips were added!"));
 		}
 		else
 		{
 			CurrentAmmo.Clips = DefaultAmmo.Clips;
 			CurrentAmmo.Bullets = DefaultAmmo.Bullets;
-			//UE_LOG(MyLogBaseWeapon, Display, TEXT("Ammo is full now!"));
 		}
 	}
 	else
 	{
 		CurrentAmmo.Bullets = DefaultAmmo.Bullets;
-		//UE_LOG(MyLogBaseWeapon, Display, TEXT("Bullets were added!"));
 	}
 	return true;
 }

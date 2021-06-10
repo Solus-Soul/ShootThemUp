@@ -51,7 +51,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	UNiagaraSystem* MuzzleFX;
 
-
 	virtual void BeginPlay() override;
 
 	virtual void MakeShot();

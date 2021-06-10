@@ -29,8 +29,7 @@ void USTUHealthComponent::BeginPlay()
 void USTUHealthComponent::OnTakeAnyDamage(
 	AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
 {
-	if (Damage <= 0.0f || IsDead())
-		return;
+	if (Damage <= 0.0f || IsDead()) return;
 
 	SetHealth(Health - Damage);
 	GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
@@ -67,8 +66,7 @@ void USTUHealthComponent::SetHealth(float NewHealth)
 
 bool USTUHealthComponent::TryToAddHealth(float HealthAmount)
 {
-	if (IsDead() || IsHealthFull())
-		return false;
+	if (IsDead() || IsHealthFull()) return false;
 
 	SetHealth(Health + HealthAmount);
 	return true;
@@ -81,17 +79,13 @@ bool USTUHealthComponent::IsHealthFull() const
 
 void USTUHealthComponent::PlayCameraShake()
 {
-	if (IsDead())
-		return;
+	if (IsDead()) return;
 
 	const auto Player = Cast<APawn>(GetOwner());
-	if (!Player)
-		return;
+	if (!Player) return;
 
 	const auto Controller = Player->GetController<APlayerController>();
-	if (!Controller || !Controller->PlayerCameraManager)
-		return;
+	if (!Controller || !Controller->PlayerCameraManager) return;
 
 	Controller->PlayerCameraManager->StartCameraShake(CameraShake);
-
 }

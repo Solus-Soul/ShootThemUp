@@ -27,8 +27,7 @@ void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
 float USTUPlayerHUDWidget::GetHealthPercent() const
 {
 	const auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(GetOwningPlayerPawn());
-	if (!HealthComponent)
-		return 0.0f;
+	if (!HealthComponent) return 0.0f;
 
 	return HealthComponent->GetHealthPercent();
 }
@@ -36,8 +35,7 @@ float USTUPlayerHUDWidget::GetHealthPercent() const
 bool USTUPlayerHUDWidget::GetCurrentWeaponUIData(FWeaponUIData& UIData) const
 {
 	const auto WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(GetOwningPlayerPawn());
-	if (!WeaponComponent)
-		return false;
+	if (!WeaponComponent) return false;
 
 	return WeaponComponent->GetCurrentWeaponUIData(UIData);
 }
@@ -45,8 +43,7 @@ bool USTUPlayerHUDWidget::GetCurrentWeaponUIData(FWeaponUIData& UIData) const
 bool USTUPlayerHUDWidget::GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const
 {
 	const auto WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(GetOwningPlayerPawn());
-	if (!WeaponComponent)
-		return false;
+	if (!WeaponComponent) return false;
 
 	return WeaponComponent->GetCurrentWeaponAmmoData(AmmoData);
 }

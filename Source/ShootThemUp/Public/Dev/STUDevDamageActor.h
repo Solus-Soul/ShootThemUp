@@ -10,9 +10,8 @@ UCLASS()
 class SHOOTTHEMUP_API ASTUDevDamageActor : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
+
+public:
 	ASTUDevDamageActor();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
@@ -22,7 +21,7 @@ public:
 	float Radius = 300.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FColor SphereColor = FColor::Red; 
+	FColor SphereColor = FColor::Red;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Damage = 10.0f;
@@ -34,11 +33,8 @@ public:
 	TSubclassOf<UDamageType> DamageType;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
+public:
 	virtual void Tick(float DeltaTime) override;
-
 };

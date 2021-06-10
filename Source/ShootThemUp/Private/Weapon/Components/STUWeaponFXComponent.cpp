@@ -24,18 +24,18 @@ void USTUWeaponFXComponent::PlayImpactFX(const FHitResult& Hit)
 	}
 
 	// Spawn Niagara
-	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), //
-		ImpactData.NiagaraEffect,							   //
-		Hit.ImpactPoint,									   //
-		Hit.ImpactNormal.Rotation()							   //
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(),	//
+		ImpactData.NiagaraEffect,								//
+		Hit.ImpactPoint,										//
+		Hit.ImpactNormal.Rotation()								//
 	);
 
 	// Spawn Decal
-	auto DecalComponent = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), //
-		ImpactData.DecalData.Material,										 //
-		ImpactData.DecalData.Size,											 //
-		Hit.ImpactPoint,													 //
-		Hit.ImpactNormal.Rotation()											 //
+	auto DecalComponent = UGameplayStatics::SpawnDecalAtLocation(GetWorld(),  //
+		ImpactData.DecalData.Material,										  //
+		ImpactData.DecalData.Size,											  //
+		Hit.ImpactPoint,													  //
+		Hit.ImpactNormal.Rotation()											  //
 	);
 
 	if (DecalComponent)
