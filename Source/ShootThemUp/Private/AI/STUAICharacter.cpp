@@ -16,6 +16,6 @@ ASTUAICharacter::ASTUAICharacter(const FObjectInitializer& ObjInit)
 	if (MovementComponent)
 	{
 		MovementComponent->bUseControllerDesiredRotation = true;
-		MovementComponent->RotationRate = FRotator(0.0f, 350.0f, 0.0f);
+		MovementComponent->RotationRate = FRotator(0.0f, 200.0f, 0.0f);
 	}
 }
