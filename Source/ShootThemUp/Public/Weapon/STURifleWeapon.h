@@ -42,7 +42,7 @@ protected:
 
 	virtual void BeginPlay() override;
 	virtual void MakeShot() override;
-	virtual void GetTraceDate(FVector& TraceStart, FVector& TraceEnd) const override;
+	virtual bool GetTraceDate(FVector& TraceStart, FVector& TraceEnd) const override;
 
 private:
 	FTimerHandle ShotTimerHandle;

@@ -6,7 +6,7 @@
 #include "Components/STUHealthComponent.h"
 #include "Perception/AISense_Sight.h"
 
-AActor* USTUAIPerceptionComponent::GetClosesEnemy() const
+AActor* USTUAIPerceptionComponent::GetClosestEnemy() const
 {
 	TArray<AActor*> PercieveActors;
 	GetCurrentlyPerceivedActors(UAISense_Sight::StaticClass(), PercieveActors);

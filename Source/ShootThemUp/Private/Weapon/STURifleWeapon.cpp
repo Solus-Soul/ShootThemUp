@@ -57,16 +57,17 @@ void ASTURifleWeapon::MakeShot()
 	DecreaseAmmo();
 }
 
-void ASTURifleWeapon::GetTraceDate(FVector& TraceStart, FVector& TraceEnd) const
+bool ASTURifleWeapon::GetTraceDate(FVector& TraceStart, FVector& TraceEnd) const
 {
 	FVector ViewLocation;
 	FRotator ViewRotation;
-	GetPlayerViewPoint(ViewLocation, ViewRotation);
+	if (!GetPlayerViewPoint(ViewLocation, ViewRotation)) return false;
 
 	TraceStart = ViewLocation;
 	const auto HalfRad = FMath::DegreesToRadians(BulletSpread);
 	const FVector ShootDirection = FMath::VRandCone(ViewRotation.Vector(), HalfRad);
 	TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
+	return true;
 }
 
 void ASTURifleWeapon::MakeDamage(const FHitResult& HitResult)

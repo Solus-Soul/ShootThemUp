@@ -42,10 +42,25 @@ APlayerController* ASTUBaseWeapon::GetPlayerController() const
 	return Player->GetController<APlayerController>();
 }
 
-void ASTUBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const
+bool ASTUBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const
 {
-	const auto Controller = GetPlayerController();
-	Controller->GetPlayerViewPoint(ViewLocation, ViewRotation);
+	const auto STUCharacter = Cast<ACharacter>(GetOwner());
+	if (!STUCharacter) return false;
+
+	if (STUCharacter->IsPlayerControlled())
+	{
+		const auto Controller = GetPlayerController();
+		if (!Controller) return false;
+
+		Controller->GetPlayerViewPoint(ViewLocation, ViewRotation);
+	}
+	else
+	{
+		ViewLocation = GetMuzzleWorldLocation();
+		ViewRotation = WeaponMesh->GetSocketRotation(MuzzleSocketName);
+	}
+
+	return true;
 }
 
 FVector ASTUBaseWeapon::GetMuzzleWorldLocation() const
@@ -53,15 +68,16 @@ FVector ASTUBaseWeapon::GetMuzzleWorldLocation() const
 	return WeaponMesh->GetSocketLocation(MuzzleSocketName);
 }
 
-void ASTUBaseWeapon::GetTraceDate(FVector& TraceStart, FVector& TraceEnd) const
+bool ASTUBaseWeapon::GetTraceDate(FVector& TraceStart, FVector& TraceEnd) const
 {
 	FVector ViewLocation;
 	FRotator ViewRotation;
-	GetPlayerViewPoint(ViewLocation, ViewRotation);
+	if (!GetPlayerViewPoint(ViewLocation, ViewRotation)) return false;
 
 	TraceStart = ViewLocation;
 	const FVector ShootDirection = ViewRotation.Vector();
 	TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
+	return true;
 }
 
 void ASTUBaseWeapon::MakeHit(FHitResult& HitResult, const FVector& TraceStart, FVector& TraceEnd)

@@ -54,10 +54,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void MakeShot();
-	virtual void GetTraceDate(FVector& TraceStart, FVector& TraceEnd) const;
+	virtual bool GetTraceDate(FVector& TraceStart, FVector& TraceEnd) const;
 
 	APlayerController* GetPlayerController() const;
-	void GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const;
+	bool GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const;
 	FVector GetMuzzleWorldLocation() const;
 
 	void MakeHit(FHitResult& HitResult, const FVector& TraceStart, FVector& TraceEnd);
