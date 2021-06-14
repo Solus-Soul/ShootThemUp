@@ -8,6 +8,7 @@
 #include "Player/STUPlayerState.h"
 #include "STUUtils.h"
 #include "Components/STURespawnComponent.h"
+#include "EngineUtils.h"
 
 DEFINE_LOG_CATEGORY_STATIC(MyLohGameMode, All, All);
 
@@ -81,13 +82,14 @@ void ASTUGameModeBase::RespawnRequest(AController* Controller)
 void ASTUGameModeBase::StartRespawn(AController* Controller)
 {
 	const auto RespawnAvailable = RoundCountDown > MinRoundTimerForRespawn + GameData.RespawnTime;
-	if(!RespawnAvailable) return;
-	
+	if (!RespawnAvailable) return;
+
 	const auto RespawnComponent = STUUtils::GetSTUPlayerComponent<USTURespawnComponent>(Controller);
-	if(!RespawnComponent) return;
+	if (!RespawnComponent) return;
 
 	RespawnComponent->Respawn(GameData.RespawnTime);
 }
+
 
 void ASTUGameModeBase::StartRound()
 {
@@ -111,7 +113,7 @@ void ASTUGameModeBase::GameTimerUpdate()
 		}
 		else
 		{
-			LogPlayerInfo();
+			GameOver();
 		}
 	}
 }
@@ -182,7 +184,7 @@ void ASTUGameModeBase::SetPlayerColor(AController* Controller)
 
 void ASTUGameModeBase::LogPlayerInfo()
 {
-	if(!GetWorld()) return;
+	if (!GetWorld()) return;
 	for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
 	{
 		const auto Controller = It->Get();
@@ -191,6 +193,20 @@ void ASTUGameModeBase::LogPlayerInfo()
 		const auto PlayerState = Cast<ASTUPlayerState>(Controller->PlayerState);
 		if (!PlayerState) continue;
 
-		PlayerState->LogInfo();		
+		PlayerState->LogInfo();
+	}
+}
+
+void ASTUGameModeBase::GameOver()
+{
+	LogPlayerInfo();
+
+	for (auto Pawn : TActorRange<APawn>(GetWorld()))
+	{
+		if (Pawn)
+		{
+			Pawn->TurnOff();
+			Pawn->DisableInput(nullptr);
+		}
 	}
 }
