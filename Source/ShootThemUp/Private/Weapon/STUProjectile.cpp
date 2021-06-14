@@ -66,7 +66,6 @@ void ASTUProjectile::OnProjectileHit(
 
 AController* ASTUProjectile::GetController() const
 {
-	UE_LOG(MyLogProjectile, Display, TEXT("cont"));
 	const auto Pawn = Cast<APawn>(GetOwner());
 	return Pawn ? Pawn->GetController() : nullptr;
 }
