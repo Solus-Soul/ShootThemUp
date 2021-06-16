@@ -31,6 +31,8 @@ void ASTUGameModeBase::StartPlay()
 
 	CurrentRound = 1;
 	StartRound();
+
+	SetMatchState(ESTUMatchState::InProgress);
 }
 
 void ASTUGameModeBase::SpawnBots()
@@ -78,6 +80,7 @@ void ASTUGameModeBase::RespawnRequest(AController* Controller)
 {
 	ResetOnePlayer(Controller);
 }
+
 
 void ASTUGameModeBase::StartRespawn(AController* Controller)
 {
@@ -209,4 +212,36 @@ void ASTUGameModeBase::GameOver()
 			Pawn->DisableInput(nullptr);
 		}
 	}
+
+	SetMatchState(ESTUMatchState::GameOver);
+}
+
+void ASTUGameModeBase::SetMatchState(ESTUMatchState State)
+{
+	if (MatchState == State) return;
+
+	MatchState = State;
+	OnMatchStateChanged.Broadcast(MatchState);
+}
+
+bool ASTUGameModeBase::SetPause(APlayerController* PC, FCanUnpause CanUnpauseDelegate)
+{
+	const auto PauseSet = Super::SetPause(PC, CanUnpauseDelegate);
+	if (PauseSet)
+	{
+		SetMatchState(ESTUMatchState::Pause);
+	}
+	return PauseSet;
+}
+
+bool ASTUGameModeBase::ClearPause()
+{
+	const auto PauseCleared = Super::ClearPause();
+
+	if (PauseCleared)
+	{
+		SetMatchState(ESTUMatchState::InProgress);
+	}
+
+	return PauseCleared;
 }
