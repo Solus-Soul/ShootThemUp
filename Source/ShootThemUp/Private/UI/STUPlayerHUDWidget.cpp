@@ -4,6 +4,8 @@
 #include "Components/STUHealthComponent.h"
 #include "Components/STUWeaponComponent.h"
 #include "STUUtils.h"
+#include "Components/ProgressBar.h"
+#include "Player/STUPlayerState.h"
 
 void USTUPlayerHUDWidget::NativeOnInitialized()
 {
@@ -22,6 +24,7 @@ void USTUPlayerHUDWidget::OnNewPawn(APawn* NewPawn)
 	{
 		HealthComponent->OnHealthChangend.AddUObject(this, &USTUPlayerHUDWidget::OnHealthChanged);
 	}
+	UpdateHealthBar();
 }
 
 void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
@@ -30,6 +33,7 @@ void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
 	{
 		OnTakeDamage();
 	}
+	UpdateHealthBar();
 }
 
 float USTUPlayerHUDWidget::GetHealthPercent() const
@@ -66,4 +70,18 @@ bool USTUPlayerHUDWidget::IsPlayerSpectating() const
 {
 	const auto Controller = GetOwningPlayer();
 	return Controller && Controller->GetStateName() == NAME_Spectating;
+}
+
+int32 USTUPlayerHUDWidget::GetKillsNum() const
+{
+	const auto Controller = GetOwningPlayer();
+	if (!Controller) { return 0; }
+
+	const auto PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
+	return PlayerState ? PlayerState->GetKillsNum() : 0;
+}
+
+void USTUPlayerHUDWidget::UpdateHealthBar()
+{
+	if (HealthProgressBar) { HealthProgressBar->SetFillColorAndOpacity(GetHealthPercent() > PercentColorTreshold ? GoodColor : BadColor); }
 }
