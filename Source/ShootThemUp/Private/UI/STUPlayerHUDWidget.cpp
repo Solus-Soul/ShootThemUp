@@ -32,6 +32,11 @@ void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
 	if (HealthDelta < 0.0f)
 	{
 		OnTakeDamage();
+
+		if(!IsAnimationPlaying(DamageAnimation))
+		{
+			PlayAnimation(DamageAnimation);
+		}
 	}
 	UpdateHealthBar();
 }
@@ -79,6 +84,22 @@ int32 USTUPlayerHUDWidget::GetKillsNum() const
 
 	const auto PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
 	return PlayerState ? PlayerState->GetKillsNum() : 0;
+}
+
+FString USTUPlayerHUDWidget::FormatBullets(int32 BulletsNum) const
+{
+	const int32 MaxLen = 3;
+	const TCHAR PrefixSymbol = '0';
+
+	auto BulletStr = FString::FromInt(BulletsNum);
+	const auto SymbolsNumToAdd = MaxLen - BulletStr.Len();
+
+	if(SymbolsNumToAdd > 0)
+	{
+		BulletStr = FString::ChrN(SymbolsNumToAdd, PrefixSymbol).Append(BulletStr);
+	}
+
+	return BulletStr;
 }
 
 void USTUPlayerHUDWidget::UpdateHealthBar()

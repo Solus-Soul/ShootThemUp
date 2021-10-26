@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "UI/STUBaseWidget.h"
 #include "STUCoreTypes.h"
 #include "STUPlayerHUDWidget.generated.h"
 
 class UProgressBar;
 
 UCLASS()
-class SHOOTTHEMUP_API USTUPlayerHUDWidget : public UUserWidget
+class SHOOTTHEMUP_API USTUPlayerHUDWidget : public USTUBaseWidget
 {
 	GENERATED_BODY()
 public:
@@ -34,16 +34,22 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	int32 GetKillsNum() const;
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	FString FormatBullets(int32 BulletsNum) const;
 	
 protected:
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthProgressBar;
 
+	UPROPERTY(meta = (BindWidgetAnim), Transient)
+	UWidgetAnimation* DamageAnimation;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	float PercentColorTreshold = 0.3f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
-	FLinearColor GoodColor = FLinearColor::White;
+	FLinearColor GoodColor = FLinearColor::Green;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	FLinearColor BadColor = FLinearColor::Red;

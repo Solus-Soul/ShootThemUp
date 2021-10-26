@@ -27,9 +27,8 @@ protected:
 	float PercentColorTreshold = 0.3f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
-	FLinearColor GoodColor = FLinearColor::White;
+	FLinearColor GoodColor = FLinearColor::Green;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	FLinearColor BadColor = FLinearColor::Red;
-
 };
