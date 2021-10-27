@@ -1,6 +1,5 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-
 #include "Player/STUPlayerState.h"
 
 DEFINE_LOG_CATEGORY_STATIC(MyLogPlayerState, All, All);

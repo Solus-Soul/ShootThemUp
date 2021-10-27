@@ -27,7 +27,6 @@ protected:
 
 	virtual void NativeOnInitialized() override;
 
-
 private:
 	void OnMatchStateChanged(ESTUMatchState State);
 	void UpdatePlayerStat();

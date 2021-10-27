@@ -7,7 +7,7 @@
 #include "STUFindEnemyService.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class SHOOTTHEMUP_API USTUFindEnemyService : public UBTService
@@ -21,5 +21,4 @@ protected:
 	FBlackboardKeySelector EnemyActorKey;
 
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
-
 };

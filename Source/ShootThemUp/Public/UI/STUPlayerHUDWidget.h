@@ -37,7 +37,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	FString FormatBullets(int32 BulletsNum) const;
-	
+
 protected:
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthProgressBar;
@@ -53,12 +53,11 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	FLinearColor BadColor = FLinearColor::Red;
-	
+
 	virtual void NativeOnInitialized() override;
 
 private:
 	void OnHealthChanged(float Health, float HealthDelta);
 	void OnNewPawn(APawn* NewPawn);
 	void UpdateHealthBar();
-	
 };

@@ -1,6 +1,5 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-
 #include "Player/STUPlayerCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
@@ -9,8 +8,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/CapsuleComponent.h"
 
-ASTUPlayerCharacter::ASTUPlayerCharacter(const FObjectInitializer& ObjInit)
-	: Super(ObjInit)
+ASTUPlayerCharacter::ASTUPlayerCharacter(const FObjectInitializer& ObjInit) : Super(ObjInit)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -56,6 +54,10 @@ void ASTUPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent, &USTUWeaponComponent::StopFire);
 	PlayerInputComponent->BindAction("NextWeapon", IE_Pressed, WeaponComponent, &USTUWeaponComponent::NextWeapon);
 	PlayerInputComponent->BindAction("Reload", IE_Pressed, WeaponComponent, &USTUWeaponComponent::Reload);
+
+	DECLARE_DELEGATE_OneParam(FZoomInputSignature, bool);
+	PlayerInputComponent->BindAction<FZoomInputSignature>("Zoom", IE_Pressed, WeaponComponent, &USTUWeaponComponent::Zoom, true);
+	PlayerInputComponent->BindAction<FZoomInputSignature>("Zoom", IE_Released, WeaponComponent, &USTUWeaponComponent::Zoom, false);
 }
 
 void ASTUPlayerCharacter::MoveForward(float Amount)
@@ -101,11 +103,10 @@ void ASTUPlayerCharacter::OnCameraCollisionBeginOverlap(UPrimitiveComponent* Ove
 	CheckCameraOverlap();
 }
 
-void ASTUPlayerCharacter::OnCameraCollisionEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+void ASTUPlayerCharacter::OnCameraCollisionEndOverlap(
+	UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	CheckCameraOverlap();
-
 }
 
 void ASTUPlayerCharacter::CheckCameraOverlap()

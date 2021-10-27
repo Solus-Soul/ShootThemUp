@@ -9,7 +9,6 @@
 USTUWeaponFXComponent::USTUWeaponFXComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	
 }
 
 void USTUWeaponFXComponent::PlayImpactFX(const FHitResult& Hit)

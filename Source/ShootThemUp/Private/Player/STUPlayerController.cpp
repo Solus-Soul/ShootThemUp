@@ -46,7 +46,6 @@ void ASTUPlayerController::OnMuteSound()
 	STUGameInstance->ToggleVolume();
 }
 
-
 void ASTUPlayerController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);

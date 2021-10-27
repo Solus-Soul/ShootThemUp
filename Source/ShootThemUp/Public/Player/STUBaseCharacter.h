@@ -42,14 +42,15 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
 	USoundCue* DeathSound;
-	
+
 	virtual void BeginPlay() override;
 	virtual void OnDeath();
 	virtual void OnHealthChanged(float Health, float HealthDelta);
 
-
 public:
 	virtual void Tick(float DeltaTime) override;
+	virtual void TurnOff() override;
+	virtual void Reset() override;
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	virtual bool IsRunning() const;
@@ -60,7 +61,6 @@ public:
 	void SetPlayerColor(const FLinearColor& Color);
 
 private:
-
 	UFUNCTION()
 	void OnGroundLanded(const FHitResult& Hit);
 };

@@ -22,7 +22,7 @@ void ASTUGameHUD::BeginPlay()
 	for (auto GameWidgetPair : GameWidgets)
 	{
 		const auto GameWidget = GameWidgetPair.Value;
-		if(!GameWidget) continue;
+		if (!GameWidget) continue;
 
 		GameWidget->AddToViewport();
 		GameWidget->SetVisibility(ESlateVisibility::Hidden);
@@ -40,22 +40,22 @@ void ASTUGameHUD::BeginPlay()
 
 void ASTUGameHUD::OnMatchStateChanged(ESTUMatchState State)
 {
-	if(CurrentWidget)
+	if (CurrentWidget)
 	{
 		CurrentWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 
-	if(GameWidgets.Contains(State))
+	if (GameWidgets.Contains(State))
 	{
 		CurrentWidget = GameWidgets[State];
 	}
-	
-	if(CurrentWidget)
+
+	if (CurrentWidget)
 	{
 		CurrentWidget->SetVisibility(ESlateVisibility::Visible);
 		CurrentWidget->Show();
 	}
-	
+
 	UE_LOG(MyLohGameHUD, Display, TEXT("Match state changed: %s"), *UEnum::GetValueAsString(State));
 }
 

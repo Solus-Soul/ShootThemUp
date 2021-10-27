@@ -14,14 +14,14 @@ void ASTULauncherWeapon::StopFire() {}
 
 void ASTULauncherWeapon::MakeShot()
 {
-	if (!GetWorld() ) return;
+	if (!GetWorld()) return;
 
-	if(IsAmmoEmpty())
+	if (IsAmmoEmpty())
 	{
 		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), NoAmmoSound, GetActorLocation());
 		return;
 	}
-	
+
 	FVector TraceStart, TraceEnd;
 	GetTraceDate(TraceStart, TraceEnd);
 

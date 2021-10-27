@@ -7,14 +7,14 @@
 #include "STUSpectatorWidget.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class SHOOTTHEMUP_API USTUSpectatorWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-	public:
+public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	bool GetRespawnTime(int32& CountDownTIme) const;
 };

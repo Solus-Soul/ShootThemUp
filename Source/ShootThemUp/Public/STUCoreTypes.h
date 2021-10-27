@@ -82,7 +82,7 @@ struct FImpactData
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	FDecalData DecalData;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	USoundCue* Sound;
 };
@@ -99,7 +99,7 @@ struct FGameData
 	int32 RoundsNum = 4;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Game", meta = (ClampMin = "3", ClampMax = "300"))
-	int32 RoundTime = 10; // In seconds
+	int32 RoundTime = 10;  // In seconds
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	FLinearColor DefaultTeamColor = FLinearColor::Red;
@@ -108,7 +108,7 @@ struct FGameData
 	TArray<FLinearColor> TeamColors;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Game", meta = (ClampMin = "3", ClampMax = "20"))
-	int32 RespawnTime = 5; // In seconds
+	int32 RespawnTime = 5;	// In seconds
 };
 
 UENUM(BlueprintType)

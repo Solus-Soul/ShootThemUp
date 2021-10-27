@@ -1,6 +1,5 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-
 #include "UI/STUGameOverWidget.h"
 #include "STUGameModeBase.h"
 #include "Player/STUPlayerState.h"
@@ -9,7 +8,6 @@
 #include "STUUtils.h"
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
-
 
 void USTUGameOverWidget::NativeOnInitialized()
 {

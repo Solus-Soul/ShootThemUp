@@ -7,7 +7,7 @@
 #include "STUMenuPlayerController.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class SHOOTTHEMUP_API ASTUMenuPlayerController : public APlayerController

@@ -7,7 +7,7 @@
 #include "STUAIPerceptionComponent.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class SHOOTTHEMUP_API USTUAIPerceptionComponent : public UAIPerceptionComponent

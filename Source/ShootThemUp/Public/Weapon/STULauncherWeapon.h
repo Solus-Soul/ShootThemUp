@@ -24,6 +24,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
 	USoundCue* NoAmmoSound;
-	
+
 	virtual void MakeShot() override;
 };

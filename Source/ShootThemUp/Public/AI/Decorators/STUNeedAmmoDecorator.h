@@ -8,7 +8,6 @@
 
 class ASTUBaseWeapon;
 
-
 UCLASS()
 class SHOOTTHEMUP_API USTUNeedAmmoDecorator : public UBTDecorator
 {

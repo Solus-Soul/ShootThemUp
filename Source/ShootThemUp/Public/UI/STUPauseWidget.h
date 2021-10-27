@@ -15,11 +15,10 @@ class SHOOTTHEMUP_API USTUPauseWidget : public USTUBaseWidget
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(meta=(BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	UButton* ClearPauseButton;
 
 	virtual void NativeOnInitialized() override;
-
 
 private:
 	UFUNCTION()

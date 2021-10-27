@@ -23,7 +23,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USTURespawnComponent* RespawnComponent;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	FName FocusOnKeyName = "EnemyActor";
 

@@ -33,7 +33,7 @@ void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
 	{
 		OnTakeDamage();
 
-		if(!IsAnimationPlaying(DamageAnimation))
+		if (!IsAnimationPlaying(DamageAnimation))
 		{
 			PlayAnimation(DamageAnimation);
 		}
@@ -80,7 +80,10 @@ bool USTUPlayerHUDWidget::IsPlayerSpectating() const
 int32 USTUPlayerHUDWidget::GetKillsNum() const
 {
 	const auto Controller = GetOwningPlayer();
-	if (!Controller) { return 0; }
+	if (!Controller)
+	{
+		return 0;
+	}
 
 	const auto PlayerState = Controller->GetPlayerState<ASTUPlayerState>();
 	return PlayerState ? PlayerState->GetKillsNum() : 0;
@@ -94,7 +97,7 @@ FString USTUPlayerHUDWidget::FormatBullets(int32 BulletsNum) const
 	auto BulletStr = FString::FromInt(BulletsNum);
 	const auto SymbolsNumToAdd = MaxLen - BulletStr.Len();
 
-	if(SymbolsNumToAdd > 0)
+	if (SymbolsNumToAdd > 0)
 	{
 		BulletStr = FString::ChrN(SymbolsNumToAdd, PrefixSymbol).Append(BulletStr);
 	}
@@ -104,5 +107,8 @@ FString USTUPlayerHUDWidget::FormatBullets(int32 BulletsNum) const
 
 void USTUPlayerHUDWidget::UpdateHealthBar()
 {
-	if (HealthProgressBar) { HealthProgressBar->SetFillColorAndOpacity(GetHealthPercent() > PercentColorTreshold ? GoodColor : BadColor); }
+	if (HealthProgressBar)
+	{
+		HealthProgressBar->SetFillColorAndOpacity(GetHealthPercent() > PercentColorTreshold ? GoodColor : BadColor);
+	}
 }

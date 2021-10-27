@@ -13,13 +13,13 @@ class SHOOTTHEMUP_API USTUGoToMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-	protected:
+protected:
 	UPROPERTY(meta = (BindWidget))
 	UButton* GoToMenuButton;
 
 	virtual void NativeOnInitialized() override;
 
-	private:
+private:
 	UFUNCTION()
 	void OnGoToMenu();
 };

@@ -18,7 +18,7 @@ public:
 	ASTUGameModeBase();
 
 	FOnMatchStateChangedSignature OnMatchStateChanged;
-	
+
 	virtual void StartPlay() override;
 	virtual UClass* GetDefaultPawnClassForController_Implementation(AController* InController) override;
 
@@ -33,7 +33,6 @@ public:
 	virtual bool SetPause(APlayerController* PC, FCanUnpause CanUnpauseDelegate = FCanUnpause()) override;
 	virtual bool ClearPause() override;
 
-	
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Game")
 	TSubclassOf<AAIController> AIControllerClass;
@@ -46,7 +45,7 @@ protected:
 
 private:
 	ESTUMatchState MatchState = ESTUMatchState::WaitingToStart;
-	
+
 	int32 CurrentRound = 1;
 	int32 RoundCountDown = 0;
 	FTimerHandle GameRoundTimerHandle;
@@ -68,4 +67,6 @@ private:
 
 	void GameOver();
 	void SetMatchState(ESTUMatchState State);
+
+	void StopAllFire();
 };

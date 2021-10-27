@@ -1,6 +1,5 @@
 // Shoot Them Up Game, All Rights Reserved.
 
-
 #include "UI/STUGameDataWidget.h"
 #include "STUGameModeBase.h"
 #include "Player/STUPlayerState.h"

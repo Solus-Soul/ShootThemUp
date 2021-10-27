@@ -41,7 +41,6 @@ void ASTUBaseCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-
 bool ASTUBaseCharacter::IsRunning() const
 {
 	return false;
@@ -72,6 +71,7 @@ void ASTUBaseCharacter::OnDeath()
 
 	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	WeaponComponent->StopFire();
+	WeaponComponent->Zoom(false);
 
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	GetMesh()->SetSimulatePhysics(true);
@@ -79,10 +79,7 @@ void ASTUBaseCharacter::OnDeath()
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), DeathSound, GetActorLocation());
 }
 
-void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta)
-{
-	
-}
+void ASTUBaseCharacter::OnHealthChanged(float Health, float HealthDelta) {}
 
 void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit)
 {
@@ -94,4 +91,18 @@ void ASTUBaseCharacter::OnGroundLanded(const FHitResult& Hit)
 	const auto FinalDamage = FMath::GetMappedRangeValueClamped(LandedDamageVelocity, LandedDamage, FallVelocityZ);
 	UE_LOG(MyLogCharacter, Display, TEXT("Final Damage %f "), FinalDamage);
 	TakeDamage(FinalDamage, FDamageEvent{}, nullptr, nullptr);
+}
+
+void ASTUBaseCharacter::TurnOff()
+{
+	WeaponComponent->StopFire();
+	WeaponComponent->Zoom(false);
+	Super::TurnOff();
+}
+
+void ASTUBaseCharacter::Reset()
+{
+	WeaponComponent->StopFire();
+	WeaponComponent->Zoom(false);
+	Super::Reset();
 }

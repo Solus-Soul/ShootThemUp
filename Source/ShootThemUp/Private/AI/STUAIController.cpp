@@ -6,7 +6,6 @@
 #include "Components/STURespawnComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
-
 ASTUAIController::ASTUAIController()
 {
 	STUAIPerceptionComponent = CreateDefaultSubobject<USTUAIPerceptionComponent>("STUAIPerceptionComponent");

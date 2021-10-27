@@ -8,6 +8,7 @@
 #include "Player/STUPlayerState.h"
 #include "STUUtils.h"
 #include "Components/STURespawnComponent.h"
+#include "Components/STUWeaponComponent.h"
 #include "EngineUtils.h"
 
 DEFINE_LOG_CATEGORY_STATIC(MyLogGameMode, All, All);
@@ -81,7 +82,6 @@ void ASTUGameModeBase::RespawnRequest(AController* Controller)
 	ResetOnePlayer(Controller);
 }
 
-
 void ASTUGameModeBase::StartRespawn(AController* Controller)
 {
 	const auto RespawnAvailable = RoundCountDown > MinRoundTimerForRespawn + GameData.RespawnTime;
@@ -93,7 +93,6 @@ void ASTUGameModeBase::StartRespawn(AController* Controller)
 	RespawnComponent->Respawn(GameData.RespawnTime);
 }
 
-
 void ASTUGameModeBase::StartRound()
 {
 	RoundCountDown = GameData.RoundTime;
@@ -102,7 +101,7 @@ void ASTUGameModeBase::StartRound()
 
 void ASTUGameModeBase::GameTimerUpdate()
 {
-	//UE_LOG(MyLogGameMode, Display, TEXT("Time: %i / Round: %i/%i"), RoundCountDown, CurrentRound, GameData.RoundsNum);
+	// UE_LOG(MyLogGameMode, Display, TEXT("Time: %i / Round: %i/%i"), RoundCountDown, CurrentRound, GameData.RoundsNum);
 
 	if (--RoundCountDown == 0)
 	{
@@ -230,6 +229,7 @@ bool ASTUGameModeBase::SetPause(APlayerController* PC, FCanUnpause CanUnpauseDel
 	const auto PauseSet = Super::SetPause(PC, CanUnpauseDelegate);
 	if (PauseSet)
 	{
+		StopAllFire();
 		SetMatchState(ESTUMatchState::Pause);
 	}
 	return PauseSet;
@@ -245,4 +245,16 @@ bool ASTUGameModeBase::ClearPause()
 	}
 
 	return PauseCleared;
+}
+
+void ASTUGameModeBase::StopAllFire()
+{
+	for (auto Pawn : TActorRange<APawn>(GetWorld()))
+	{
+		const auto WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(Pawn);
+		if (!WeaponComponent) continue;
+
+		WeaponComponent->StopFire();
+		WeaponComponent->Zoom(false);
+	}
 }

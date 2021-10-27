@@ -37,9 +37,9 @@ void ASTUAICharacter::Tick(float DeltaTime)
 
 void ASTUAICharacter::UpdateHealthWidgetVisibility()
 {
-	if (!GetWorld() ||                                      //
-	    !GetWorld()->GetFirstPlayerController() ||          //
-	    !GetWorld()->GetFirstPlayerController()->GetPawnOrSpectator()) //
+	if (!GetWorld() ||													//
+		!GetWorld()->GetFirstPlayerController() ||						//
+		!GetWorld()->GetFirstPlayerController()->GetPawnOrSpectator())	//
 		return;
 
 	const auto PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawnOrSpectator()->GetActorLocation();
@@ -59,7 +59,10 @@ void ASTUAICharacter::OnHealthChanged(float Health, float HealthDelta)
 	Super::OnHealthChanged(Health, HealthDelta);
 
 	const auto HealthBarWidget = Cast<USTUHealthBarWidget>(HealthWidgetComponent->GetUserWidgetObject());
-	if (!HealthBarWidget) { return; }
+	if (!HealthBarWidget)
+	{
+		return;
+	}
 	HealthBarWidget->SetHealthPercent(HealthComponent->GetHealthPercent());
 }
 

@@ -29,6 +29,8 @@ public:
 	bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
 	bool NeedAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType);
 
+	void Zoom(bool Enabled);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	TArray<FWeaponData> WeaponData;
@@ -65,7 +67,6 @@ private:
 
 	void SpawnWeapons();
 	void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* SceneComponent, const FName& SocketName);
-
 
 	void PlayAnimMontage(UAnimMontage* Animation);
 	void InitAnimations();
