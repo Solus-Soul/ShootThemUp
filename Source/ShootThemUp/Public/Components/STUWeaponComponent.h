@@ -65,7 +65,7 @@ private:
 
 	void SpawnWeapons();
 	void AttachWeaponToSocket(ASTUBaseWeapon* Weapon, USceneComponent* SceneComponent, const FName& SocketName);
-	
+
 
 	void PlayAnimMontage(UAnimMontage* Animation);
 	void InitAnimations();

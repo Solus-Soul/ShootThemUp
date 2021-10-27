@@ -10,7 +10,7 @@
 #include "Components/STURespawnComponent.h"
 #include "EngineUtils.h"
 
-DEFINE_LOG_CATEGORY_STATIC(MyLohGameMode, All, All);
+DEFINE_LOG_CATEGORY_STATIC(MyLogGameMode, All, All);
 
 constexpr static int32 MinRoundTimerForRespawn = 10;
 
@@ -102,7 +102,7 @@ void ASTUGameModeBase::StartRound()
 
 void ASTUGameModeBase::GameTimerUpdate()
 {
-	UE_LOG(MyLohGameMode, Display, TEXT("Time: %i / Round: %i/%i"), RoundCountDown, CurrentRound, GameData.RoundsNum);
+	//UE_LOG(MyLogGameMode, Display, TEXT("Time: %i / Round: %i/%i"), RoundCountDown, CurrentRound, GameData.RoundsNum);
 
 	if (--RoundCountDown == 0)
 	{
@@ -157,7 +157,7 @@ void ASTUGameModeBase::CreateTeamsInfo()
 		PlayerState->SetTeamID(TeamID);
 		PlayerState->SetTeamColor(DetermineColorByTeamID(TeamID));
 		PlayerState->SetPlayerName(Controller->IsPlayerController() ? "Player" : "Bot");
-		SetPlayerColor(Controller); 
+		SetPlayerColor(Controller);
 
 		TeamID = TeamID == 1 ? 2 : 1;
 	}
@@ -169,7 +169,7 @@ FLinearColor ASTUGameModeBase::DetermineColorByTeamID(int32 TeamID) const
 	{
 		return GameData.TeamColors[TeamID - 1];
 	}
-	UE_LOG(MyLohGameMode, Warning, TEXT("No color for team id %i , set to default: %s"), TeamID, *GameData.DefaultTeamColor.ToString());
+	UE_LOG(MyLogGameMode, Warning, TEXT("No color for team id %i , set to default: %s"), TeamID, *GameData.DefaultTeamColor.ToString());
 	return GameData.DefaultTeamColor;
 }
 
